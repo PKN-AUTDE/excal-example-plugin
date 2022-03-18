@@ -16,14 +16,13 @@ class customVisitor(NodeVisitor):
 
     def visit_var_decl(self, node: AstNode) -> Generator[Tuple[str, int, int, str], None, None]:
         if node.parent.kind == CursorKind.TRANSLATION_UNIT:
-            yield node.location.filename, node.location.line, node.location.col, \
+            yield node.filename, node.location.line, node.location.col, \
                 "ERR100 No global Variables."
-
 
     def visit_decl_stmt(self, node: AstNode) -> Generator[Tuple[str, int, int, str], None, None]:
         for sib in node.get_older_Siblings():
             if sib.kind != CursorKind.DECL_STMT:
-                yield node.location.filename, node.location.line, node.location.col, \
+                yield node.filename, node.location.line, node.location.col, \
                     "ERR101 Declare all variables at top of scope."
         return
 
