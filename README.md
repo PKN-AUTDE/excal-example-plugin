@@ -13,7 +13,6 @@ class Plugin(NodeVisitor):
     def __init__(self) -> None:
         super().__init__()
 ```
-
 From here the class can implement as many visit functions as wished. EXCAL will walk through the abstract syntax tree (AST)and call the corresponding visit functions of all Plugins. The visit functions follow the naming scheme of their corresponding Nodes in the Clang AST. To see the AST of an file just execute excal with the -p flag and the AST will be printed.
 
 
@@ -26,9 +25,9 @@ Feel free to user your own style of error message, at the moment we go with the 
 
 ```
     # visitor function of the Plugin class. gets called when a corresponding node (in this case VAR_DECL) gets visited in the AST
-    def visit_var_decl(self, node: AstNode) -> Generator[Tuple[str, int, int, str], None, None]:
+    def visit_var_decl(self, node: AstNode) -> Generator[Offence, None, None]:
     if foundError:
-        yield node.location.filenamem, row, col, "ERR100 Errormessage"
+        yield Offence(node.filenamem, node.loaction, "Errormessage", "ERR100")
 
     # special function, will get called after the AST ends.
     def final_call():
